@@ -13,9 +13,25 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '/',
+      path:'/',
+      redirect:'/login'
+    },
+    {
+      path: '/login',
+      component: Login
+    },
+    {
+      path: '/index',
       component: Index,
       children: [
+        {
+          path: 'person',
+          name: 'person',
+          component: () => import('@/view/layout/person'),
+          meta: {
+            title: '个人中心'
+          }
+        },
         {
           path: 'get',
           name: 'get',
@@ -43,7 +59,7 @@ const router = new Router({
         {
           path: 'password',
           name: 'password',
-          component: () => import('@/view/user/password'),
+          component: () => import('@/view/layout/password'),
           meta: {
             title: '修改密码'
           }
@@ -119,13 +135,34 @@ const router = new Router({
           meta: {
             title: '轮播图列表'
           }
+        },
+        {
+          path: 'swiperid',
+          name: 'swiperid',
+          component: () => import('@/view/swiper/swiper-id'),
+          meta: {
+            title: '轮播图详情'
+          }
+        },
+        {
+          path: 'swiper/edit',
+          name: 'swiper-edit',
+          component: () => import('@/view/swiper/edit'),
+          meta: {
+            title: '编辑轮播图'
+          }
+        },
+        {
+          path: 'swiper/add',
+          name: 'swiper-add',
+          component: () => import('@/view/swiper/add'),
+          meta: {
+            title: '编辑轮播图'
+          }
         }
       ]
-    },
-    {
-      path: '/login',
-      component: Login
     }
+
   ]
 })
 

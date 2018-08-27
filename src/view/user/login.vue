@@ -22,7 +22,7 @@
           <el-input v-model="formLabelAlign.region" type="password" style="width: 400px;"></el-input>
         </el-form-item>
         <el-row>
-          <el-button type="primary" plain style="width: 400px; margin-top: 10px" @click="handleLogin">登录</el-button>
+          <el-button type="primary" plain style="width: 400px; margin-top: 10px" @click="handleLogin" :loading="isLogining">登录</el-button>
         </el-row>
       </el-form>
     </div>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
     export default {
       data() {
         return {
@@ -37,7 +38,8 @@
           formLabelAlign: {
             name: 'admin',
             region: 'admin'
-          }
+          },
+          isLogining: false
         }
       },
       methods: {
@@ -49,14 +51,42 @@
           this.$axios.post('login',params).then(res=>{
             console.log(res);
             if(res.code == 200){
+              this.$store.commit('SET_USERINFO',res.data)
               alert(`欢迎${res.data.username}进入后台操作系统`)
-              this.$router.push('/get')
+              this.$router.push('/index/get')
             }
             else {
               alert(`${res.msg},请输入正确的信息`)
             }
           })
-        }
+        },
+        // handleLogin () {
+        //   this.isLogining = true
+        //   this.$store.dispatch('login', this.formLabelAlign).then((isLogin) => {
+        //     this.isLogining = false
+        //     if(isLogin) {
+        //       this.$router.push('/get')
+        //     }
+        //   }).catch(err => {
+        //     this.isLogining = false
+        //     this.$message.error('连接超时，请检查您的网络')
+        //   })
+          // this.login(this.formLabelAlign).then(isLogin => {
+          //   console.log(isLogin);
+          //   this.isLogining = false
+          //   if(isLogin) {
+          //     this.$router.push('/get')
+          //   }
+          // }) .catch(err => {
+          //   this.isLogining = false
+          //   this.$message.error('连接超时，请检查您的网络')
+          // })
+      },
+      computed:{
+        ...mapState(['userInfo'])
+      },
+      created(){
+        console.log(this.userInfo);
       }
     }
 </script>

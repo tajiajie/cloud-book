@@ -68,7 +68,7 @@
           if(res.code == 200) {
             this.$message.success('添加成功')
             setTimeout(() => {
-              this.$router.push('/books')
+              this.$router.push('/index/books')
             }, 1000)
           } else {
             this.$message.error(data.msg)

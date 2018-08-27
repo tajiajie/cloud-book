@@ -57,6 +57,10 @@
           }).then(() => {
             this.$axios.delete(`/category/${id}`).then(res => {
               // console.log(res)
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
               if (res.code == 200) {
                 this.getData()
               }

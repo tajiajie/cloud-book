@@ -47,7 +47,7 @@
       methods: {
         getData () {
           this.$axios.get('/book').then(res => {
-            console.log(res);
+            // console.log(res);
             this.tableData = res.data
           })
         },
@@ -57,8 +57,28 @@
         handleEdit (id) {
           this.$router.push({name: 'book-edit', query: {id}})
         },
-        handleDelete () {
-
+        handleDelete (id) {
+          // console.log(id);
+          this.$confirm('此操作将永久删除该图书, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$axios.delete(`/book/${id}`).then(res => {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+              if (res.code == 200) {
+                this.getData()
+              }
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            })
+          })
         }
       },
       created () {

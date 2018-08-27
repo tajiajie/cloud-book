@@ -10,9 +10,6 @@
           <div class="item">管理员昵称：{{formData.nickname}}</div>
           <div class="item">描述：{{formData.desc}}</div>
           <div class="item">更新时间：{{formData.updatedTime}}</div>
-          <el-button type="primary" style="width: 280px;" @click="handlePassword">
-            修改密码
-          </el-button>
         </div>
       </div>
     </div>
@@ -35,9 +32,6 @@
             console.log(getData)
             this.formData = getData[0]
           })
-        },
-        handlePassword () {
-          this.$router.push('/password')
         }
       },
       created () {

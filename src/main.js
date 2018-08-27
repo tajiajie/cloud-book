@@ -5,6 +5,8 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import './util/axios'
 import api from './util/api'
+import store from './store'
+
 Vue.use(ElementUI);
 Vue.config.productionTip = false
 Vue.prototype.$api = api
@@ -12,6 +14,7 @@ Vue.prototype.$api = api
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

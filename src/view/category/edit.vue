@@ -41,18 +41,15 @@
       methods: {
         getData () {
           this.$axios.get(`${this.$api.category}`).then(res => {
-            // console.log(res.data);
             const getData = res.data.filter(item => {
               return item._id == this.$route.query.id
             })
-            // console.log(item._id)
-            // console.log(getData)
             this.formData = getData[0]
           })
         },
         handleSave () {
           const id = this.$route.query.id
-          console.log(id);
+          // console.log(id);
           let params = {
             title: this.formData.title,
             icon: this.formData.icon,
@@ -62,7 +59,7 @@
             if(res.code == 200) {
               this.$message.success('修改成功')
               setTimeout(() => {
-                this.$router.push('/category')
+                this.$router.push('/index/category')
               }, 1000)
             } else {
               this.$message.error(data.msg)

@@ -1,20 +1,43 @@
 <template>
     <div class="box">
-      <div class="content" v-for="(item, index) in swiper" :key="index">
-        <div class="left">
-          <div style="font-weight: 700">{{item.title}}</div>
-          <img class="pic" :src="item.img">
-        </div>
-        <div class="right">
-          <div>
-            <img class="right-pic" :src="item.book.img">
-          </div>
-          <div>
-            <div>作者：{{item.book.author}}</div>
-            <div>描述：{{item.book.desc}}</div>
-          </div>
-        </div>
-      </div>
+      <el-table :data="swiper">
+        <el-table-column prop="title"
+                         label="书名"
+        >
+        </el-table-column>
+        <el-table-column prop="img"
+                         label="轮播图标"
+        >
+          <template slot-scope="data">
+            <img :src="data.row.img" class="pic1">
+          </template>
+        </el-table-column>
+        <el-table-column prop="index"
+                         label="轮播图排序"
+        >
+        </el-table-column>
+        <el-table-column prop="book.img"
+                         label="图书图标"
+        >
+          <template slot-scope="data">
+            <img :src="data.row.book.img" class="pic2">
+          </template>
+        </el-table-column>
+        <el-table-column prop="book.author"
+                         label="图书作者"
+        >
+        </el-table-column>
+        <el-table-column  label="操作" width="300px">
+          <template slot-scope="scope" class="btn">
+            <el-button type="primary" plain size="small" @click="handleEdit(scope.row._id)">
+              编辑
+            </el-button>
+            <el-button type="info" plain size="small" @click="handleDetail(scope.row._id)">
+              查看详情
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
 </template>
 
@@ -28,9 +51,15 @@
       methods: {
         gatData () {
           this.$axios.get('/swiper').then(res => {
-            console.log(res.data)
+            // console.log(res.data)
             this.swiper = res.data
           })
+        },
+        handleEdit(id) {
+          this.$router.push({name: 'swiper-edit', query: {id}})
+        },
+        handleDetail (id) {
+          this.$router.push({name: 'swiperid', query: {id}})
         }
       },
       created () {
@@ -43,28 +72,14 @@
   .box{
     margin: 10px;
   }
-  .left{
-    margin-right: 16px;
+  .pic1{
+    width: 100px;
+    height: 70px;
+    box-shadow: 0 0 2px;
   }
-  .pic{
-    width: 250px;
-    height: 150px;
-    margin-top: 10px;
-    box-shadow: 0 0 4px #000;
-  }
-  .content{
-    display: flex;
-    justify-content: flex-start;
-  }
-  .right{
-    margin-top: 30px;
-    display: flex;
-    justify-content: flex-start;
-  }
-  .right-pic{
-    width: 120px;
-    height: 150px;
-    margin-right: 15px;
-    box-shadow: 0 0 4px #000;
+  .pic2{
+    width: 60px;
+    height: 70px;
+    box-shadow: 0 0 2px;
   }
 </style>

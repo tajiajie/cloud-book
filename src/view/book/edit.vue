@@ -60,7 +60,7 @@
         getCategory () {
           return new  Promise(resolve => {
             this.$axios.get('category').then(res => {
-              console.log(res);
+              // console.log(res);
               this.tableData = res.data
               resolve()
             })
@@ -75,7 +75,7 @@
             if(res.code == 200) {
               this.$message.success('修改成功')
               setTimeout(() => {
-                this.$router.push('/books')
+                this.$router.push('/index/books')
               }, 1000)
             } else {
               this.$message.error(data.msg)

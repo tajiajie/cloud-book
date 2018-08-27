@@ -55,7 +55,7 @@
           if(res.code == 200) {
             this.$message.success('添加成功')
             setTimeout(() => {
-              this.$router.push('/get')
+              this.$router.push('/index/get')
             }, 1000)
           } else {
             this.$message.error(data.msg)

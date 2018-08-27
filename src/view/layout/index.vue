@@ -17,7 +17,6 @@
               <el-menu-item-group>
                 <el-menu-item index="1-1" @click="handleCom">管理员信息</el-menu-item>
                 <el-menu-item index="1-2" @click="handleAdd">添加管理员</el-menu-item>
-                <el-menu-item index="1-3">选项3</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 
@@ -29,7 +28,6 @@
               <el-menu-item-group>
                 <el-menu-item index="2-1" @click="handleCategory">分类列表</el-menu-item>
                 <el-menu-item index="2-2" @click="handleAddcate">添加分类</el-menu-item>
-                <el-menu-item index="2-3">选项3</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 
@@ -51,6 +49,7 @@
               </template>
               <el-menu-item-group>
                 <el-menu-item index="4-1" @click="handleSwiper">轮播图列表</el-menu-item>
+                <el-menu-item index="4-2" @click="handleAddswiper">添加轮播图</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 
@@ -60,23 +59,15 @@
     </div>
     <div class="top">
       <h1>{{title}}</h1>
-      <div class="user-handle">
-
-      </div>
-      <!--<div class="user-handle">-->
-        <!--<el-dropdown>-->
-          <!--<div class="avatar-wrap">-->
-            <!--<img :src="userInfo.avatar" v-if="userInfo.avatar">-->
-          <!--</div>-->
-          <!--<el-dropdown-menu slot="dropdown">-->
-            <!--<el-dropdown-item>黄金糕</el-dropdown-item>-->
-            <!--<el-dropdown-item>狮子头</el-dropdown-item>-->
-            <!--<el-dropdown-item>螺蛳粉</el-dropdown-item>-->
-            <!--<el-dropdown-item>双皮奶</el-dropdown-item>-->
-            <!--<el-dropdown-item>蚵仔煎</el-dropdown-item>-->
-          <!--</el-dropdown-menu>-->
-        <!--</el-dropdown>-->
-      <!--</div>-->
+      <el-dropdown class="user-handle">
+        <div class="avatar-wrap">
+          <img :src="userInfo.avatar" v-if="userInfo.avatar">
+        </div>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="handlePerson">个人中心</el-dropdown-item>
+          <el-dropdown-item @click.native="handleLoginout">推出登陆</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <div class="content">
       <router-view></router-view>
@@ -85,35 +76,10 @@
 </template>
 
 <script>
-  // import {mapState} from 'vuex'
+  import {mapState} from 'vuex'
     export default {
-      // computed: {
-      //   ...mapState(['userInfo'])
-      // },
-      methods: {
-        handleCom () {
-          this.$router.push('/get')
-        },
-        handleAdd () {
-          this.$router.push('/add')
-        },
-        handleCategory () {
-          this.$router.push('/category')
-        },
-        handleAddcate () {
-          this.$router.push('/category/add')
-        },
-        handleAddbook () {
-          this.$router.push('/add-book')
-        },
-        handlebooks () {
-          this.$router.push('/books')
-        },
-        handleSwiper () {
-          this.$router.push('/swiper')
-        }
-      },
       computed: {
+        ...mapState(['userInfo']),
         title() {
           if(this.$route.meta && this.$route.meta.title){
             return this.$route.meta.title
@@ -122,7 +88,49 @@
             return '后台操作系统'
           }
         }
-      }
+      },
+      methods: {
+        handleCom () {
+          this.$router.push('/index/get')
+        },
+        handleAdd () {
+          this.$router.push('/index/add')
+        },
+        handleCategory () {
+          this.$router.push('/index/category')
+        },
+        handleAddcate () {
+          this.$router.push('/index/category/add')
+        },
+        handleAddbook () {
+          this.$router.push('/index/add-book')
+        },
+        handlebooks () {
+          this.$router.push('/index/books')
+        },
+        handleSwiper () {
+          this.$router.push('/index/swiper')
+        },
+        handleAddswiper () {
+          this.$router.push('/index/swiper/add')
+        },
+        handlePerson () {
+          this.$router.push('/index/person')
+        },
+        handleLoginout () {
+          this.$axios.get('/logout').then(res => {
+            if (res.code == 200) {
+              this.$message.success('退出登录成功')
+              this.$store.commit('SET_USERINFO', {userInfo: '', avatar: '', email: '', desc: ''})
+              this.$router.push('/login')
+            } else {
+              this.$message.error(res.msg)
+            }
+          }).catch(err => {
+            this.$message.error(err)
+          })
+        }
+      },
     }
 </script>
 
@@ -135,6 +143,7 @@
   bottom: 0;
 }
 .top{
+  position: relative;
   position: fixed;
   top: 0;
   right: 0;
@@ -155,6 +164,19 @@
     overflow:scroll
   }
   .user-handle{
-     float: right;
+    position: absolute;
+    right: 40px;
+    top: 20px;
+  }
+  .avatar-wrap {
+    border: 1px solid #f1f1f1;
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+  }
+  .avatar-wrap img{
+    display: block;
+    width: 100%;
+
   }
 </style>

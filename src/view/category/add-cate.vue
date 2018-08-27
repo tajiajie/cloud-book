@@ -44,7 +44,7 @@
             if(res.code == 200) {
               this.$message.success('修改成功')
               setTimeout(() => {
-                this.$router.push('/category')
+                this.$router.push('/index/category')
               }, 1000)
             } else {
               this.$message.error(data.msg)
