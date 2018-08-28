@@ -85,9 +85,6 @@
       computed:{
         ...mapState(['userInfo'])
       },
-      created(){
-        console.log(this.userInfo);
-      }
     }
 </script>
 

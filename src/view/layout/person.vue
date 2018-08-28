@@ -9,9 +9,14 @@
           <div class="item">我的邮箱：{{userInfo.email}}</div>
           <div class="item">昵称：{{userInfo.nickname}}</div>
           <div class="item">描述：{{userInfo.desc}}</div>
-          <el-button type="primary" style="width: 280px;" @click="handlePassword">
-            修改密码
-          </el-button>
+          <div class="btn">
+            <el-button type="primary" style="width: 120px;" @click="handlePassword">
+              修改密码
+            </el-button>
+            <el-button type="primary" style="width: 120px;" @click="handlePerson">
+              修改个人信息
+            </el-button>
+          </div>
         </div>
       </div>
     </div>
@@ -29,6 +34,9 @@
     methods: {
       handlePassword () {
         this.$router.push('/index/password')
+      },
+      handlePerson () {
+        this.$router.push('/index/my/edit')
       }
     },
   }
@@ -57,5 +65,9 @@
   }
   .item{
     margin-bottom: 10px;
+  }
+  .btn{
+    display: flex;
+    justify-content: space-between;
   }
 </style>

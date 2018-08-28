@@ -34,6 +34,10 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-button-group class="btn">
+      <el-button type="primary" icon="el-icon-arrow-left" @click="handleReduce">上一页</el-button>
+      <el-button type="primary" @click="handleAdd">下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+    </el-button-group>
   </div>
 </template>
 
@@ -41,12 +45,16 @@
     export default {
         data () {
           return {
-            tableData: []
+            tableData: [],
+            params: {
+              pn: 1,
+              size: 5
+            }
           }
         },
       methods: {
         getData () {
-          this.$axios.get('/book').then(res => {
+          this.$axios.get('/book', this.params).then(res => {
             // console.log(res);
             this.tableData = res.data
           })
@@ -79,6 +87,31 @@
               message: '已取消删除'
             })
           })
+        },
+        handleReduce () {
+          this.params.pn -= 1
+          this.getData()
+          if (this.params.pn < 1) {
+            this.params.pn = 1
+            this.$message({
+              type: 'warning',
+              message: '已是第一页!'
+            });
+          }
+        },
+        handleAdd () {
+          this.params.pn += 1
+          this.$axios.get('/book', this.params).then(res => {
+            if (res.data.length == 0) {
+              this.params.pn -= 1
+              this.$message({
+                type: 'warning',
+                message: '不要点了，没有更多书了!'
+              });
+            } else {
+              this.tableData = res.data
+            }
+          })
         }
       },
       created () {
@@ -94,5 +127,10 @@
   .pic{
     width: 60px;
     height: 60px;
+  }
+  .btn{
+    margin: 10px;
+    display: flex;
+    justify-content: center;
   }
 </style>

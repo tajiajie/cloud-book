@@ -7,7 +7,7 @@ import Add from '../view/user/add'
 import Category from '../view/category/category'
 import Edit from '../view/category/edit'
 
-import Test2 from '../view/layout/test2'
+import Test2 from '../view/layout/edit'
 
 Vue.use(Router)
 const router = new Router({
@@ -62,6 +62,14 @@ const router = new Router({
           component: () => import('@/view/layout/password'),
           meta: {
             title: '修改密码'
+          }
+        },
+        {
+          path: 'my/edit',
+          name: 'my-edit',
+          component: () => import('@/view/layout/edit'),
+          meta: {
+            title: '修改个人信息'
           }
         },
         {

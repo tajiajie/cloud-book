@@ -5,9 +5,6 @@
           <el-input v-model="formData.title"></el-input>
         </el-form-item>
         <el-form-item label="分类图片">
-          <!--<el-button type="danger">-->
-            <!--点击更换-->
-          <!--</el-button>-->
           <imgUpload v-model="formData.icon"></imgUpload>
         </el-form-item>
 
